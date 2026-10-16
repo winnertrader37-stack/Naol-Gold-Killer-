@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Naol FX AI Analyzer - Forex and crypto chart analysis dashboard."
+    >
+
+    <title>Naol FX AI Analyzer</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script
+        src="https://s3.tradingview.com/tv.js"
+        defer
+    ></script>
+
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+
+    <!-- BACKGROUND EFFECT -->
+    <div class="background-glow glow-one"></div>
+    <div class="background-glow glow-two"></div>
+
+    <!-- HEADER -->
+    <header class="main-header">
+
+        <div class="brand">
+            <div class="brand-logo">N</div>
+
+            <div class="brand-text">
+                <h1>NAOL <span>FX</span></h1>
+                <p>AI TRADING ANALYZER</p>
+            </div>
+        </div>
+
+        <div class="header-status">
+            <span class="status-dot"></span>
+            <span id="connectionStatus">Initializing...</span>
+        </div>
+
+    </header>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-container">
+
+        <!-- HERO -->
+        <section class="hero-section">
+
+            <div class="hero-content">
+
+                <div class="hero-badge">
+                    SMART MARKET ANALYSIS
+                </div>
+
+                <h2>
+                    Analyze the Market.
+                    <span>Trade Smarter.</span>
+                </h2>
+
+                <p>
+                    View live charts for Gold, Bitcoin and Ethereum.
+                    Prepare your chart analysis and trading setup
+                    in one place.
+                </p>
+
+            </div>
+
+        </section>
+
+
+        <!-- MARKET SELECTOR -->
+        <section class="market-section">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="section-label">
+                        MARKETS
+                    </span>
+
+                    <h2>Choose Your Market</h2>
+                </div>
+
+                <div class="market-indicator">
+                    LIVE CHART
+                </div>
+
+            </div>
+
+
+            <div class="market-grid">
+
+                <!-- GOLD -->
+                <button
+                    class="market-card active"
+                    data-symbol="OANDA:XAUUSD"
+                    data-name="XAUUSD"
+                    type="button"
+                >
+
+                    <div class="market-icon gold-icon">
+                        Au
+                    </div>
+
+                    <div class="market-info">
+                        <strong>XAUUSD</strong>
+                        <span>Gold / US Dollar</span>
+                    </div>
+
+                    <div class="market-arrow">↗</div>
+
+                </button>
+
+
+                <!-- BITCOIN -->
+                <button
+                    class="market-card"
+                    data-symbol="BITSTAMP:BTCUSD"
+                    data-name="BTCUSD"
+                    type="button"
+                >
+
+                    <div class="market-icon bitcoin-icon">
+                        ₿
+                    </div>
+
+                    <div class="market-info">
+                        <strong>BTCUSD</strong>
+                        <span>Bitcoin / US Dollar</span>
+                    </div>
+
+                    <div class="market-arrow">↗</div>
+
+                </button>
+
+
+                <!-- ETHEREUM -->
+                <button
+                    class="market-card"
+                    data-symbol="COINBASE:ETHUSD"
+                    data-name="ETHUSD"
+                    type="button"
+                >
+
+                    <div class="market-icon ethereum-icon">
+                        Ξ
+                    </div>
+
+                    <div class="market-info">
+                        <strong>ETHUSD</strong>
+                        <span>Ethereum / US Dollar</span>
+                    </div>
+
+                    <div class="market-arrow">↗</div>
+
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- CHART -->
+        <section class="chart-section">
+
+            <div class="chart-header">
+
+                <div class="chart-title">
+
+                    <div class="live-pulse"></div>
+
+                    <div>
+                        <h2 id="selectedSymbol">XAUUSD</h2>
+
+                        <p id="selectedMarketName">
+                            Gold / US Dollar
+                        </p>
+                    </div>
+
+                </div>
+
+
+                <div class="chart-provider">
+                    TradingView Chart
+                </div>
+
+            </div>
+
+
+            <!-- TIMEFRAME BUTTONS -->
+            <div class="timeframe-toolbar">
+
+                <span>TIMEFRAME</span>
+
+                <div class="timeframe-buttons">
+
+                    <button data-interval="1" type="button">
+                        M1
+                    </button>
+
+                    <button
+                        class="selected"
+                        data-interval="5"
+                        type="button"
+                    >
+                        M5
+                    </button>
+
+                    <button data-interval="15" type="button">
+                        M15
+                    </button>
+
+                    <button data-interval="30" type="button">
+                        M30
+                    </button>
+
+                    <button data-interval="60" type="button">
+                        H1
+                    </button>
+
+                    <button data-interval="240" type="button">
+                        H4
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- LIVE CHART CONTAINER -->
+            <div class="chart-wrapper">
+
+                <div
+                    id="tradingview_chart"
+                    aria-label="Live market chart"
+                >
+
+                    <div class="chart-loading">
+                        <div class="loading-spinner"></div>
+
+                        <p>
+                            Loading market chart...
+                        </p>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="chart-footer">
+
+                <span>
+                    Market data supplied by the selected chart provider.
+                </span>
+
+                <span id="currentTimeframe">
+                    TIMEFRAME: M5
+                </span>
+
+            </div>
+
+        </section>
+
+
+        <!-- ANALYSIS INTRODUCTION -->
+        <section class="analysis-section">
+
+            <div class="section-heading">
+
+                <div>
+                    <span class="section-label">
+                        AI ANALYSIS
+                    </span>
+
+                    <h2>Chart Analyzer</h2>
+                </div>
+
+                <div class="coming-badge">
+                    NEXT MODULE
+                </div>
+
+            </div>
+
+
+            <div class="analysis-card">
+
+                <div class="analysis-icon">
+                    ✦
+                </div>
+
+                <div class="analysis-content">
+
+                    <h3>Prepare Your Trading Setup</h3>
+
+                    <p>
+                        The next module will allow you to upload
+                        a chart screenshot and analyze its market
+                        structure, price action, liquidity and
+                        possible trading setups.
+                    </p>
+
+                    <div class="analysis-features">
+
+                        <span>✓ Market Structure</span>
+
+                        <span>✓ ICT / SMC</span>
+
+                        <span>✓ Entry / SL / TP</span>
+
+                        <span>✓ BUY / SELL / WAIT</span>
+
+                    </div>
+
+                    <p class="module-note">
+                        Screenshot AI analysis is not enabled yet.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- RISK NOTICE -->
+        <section class="risk-notice">
+
+            <div class="risk-symbol">!</div>
+
+            <div>
+
+                <h3>Trading Risk Notice</h3>
+
+                <p>
+                    This website is an analysis interface, not a
+                    guarantee of profitable trades. Chart prices,
+                    spreads and execution may differ between
+                    providers and brokers. Always verify market
+                    conditions and use appropriate risk management.
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer class="main-footer">
+
+        <div class="footer-brand">
+            NAOL <span>FX</span> ANALYZER
+        </div>
+
+        <p>
+            Market analysis made clearer.
+        </p>
+
+        <p class="copyright">
+            © <span id="currentYear"></span> Naol FX AI Analyzer
+        </p>
+
+    </footer>
+
+</body>
+</html>
