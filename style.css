@@ -1,0 +1,1391 @@
+/* ==========================================================
+   NAOL FX AI ANALYZER
+   Premium 3D Trading Dashboard
+   Version 1.0
+   ========================================================== */
+
+/* ------------------------------
+   1. GLOBAL SETTINGS
+------------------------------ */
+
+:root {
+    --bg-primary: #050914;
+    --bg-secondary: #091426;
+    --bg-card: rgba(14, 29, 52, 0.82);
+
+    --blue: #2589ff;
+    --cyan: #00e5ff;
+    --purple: #805dff;
+
+    --green: #00e6a0;
+    --red: #ff476f;
+    --gold: #ffc857;
+
+    --text-primary: #f4f8ff;
+    --text-secondary: #9aaac4;
+    --text-muted: #667895;
+
+    --border: rgba(117, 165, 230, 0.17);
+
+    --shadow-blue:
+        0 12px 35px rgba(0, 100, 255, 0.12);
+
+    --radius-large: 22px;
+    --radius-medium: 15px;
+    --radius-small: 10px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    min-height: 100vh;
+    overflow-x: hidden;
+
+    background:
+        radial-gradient(
+            ellipse at 15% 0%,
+            rgba(21, 77, 150, 0.20),
+            transparent 38%
+        ),
+        radial-gradient(
+            ellipse at 95% 35%,
+            rgba(67, 42, 150, 0.13),
+            transparent 35%
+        ),
+        var(--bg-primary);
+
+    color: var(--text-primary);
+
+    font-family:
+        Inter,
+        "Segoe UI",
+        Roboto,
+        Arial,
+        sans-serif;
+
+    line-height: 1.6;
+
+    -webkit-font-smoothing: antialiased;
+}
+
+button {
+    font: inherit;
+}
+
+button:focus-visible {
+    outline: 2px solid var(--cyan);
+    outline-offset: 4px;
+}
+
+::selection {
+    background: rgba(0, 229, 255, 0.28);
+    color: white;
+}
+
+
+/* ------------------------------
+   2. BACKGROUND EFFECTS
+------------------------------ */
+
+.background-glow {
+    position: fixed;
+
+    width: 320px;
+    height: 320px;
+
+    border-radius: 50%;
+
+    filter: blur(110px);
+
+    opacity: 0.14;
+
+    pointer-events: none;
+
+    z-index: -1;
+}
+
+.glow-one {
+    top: 10%;
+    left: -180px;
+
+    background: var(--blue);
+}
+
+.glow-two {
+    top: 45%;
+    right: -190px;
+
+    background: var(--purple);
+}
+
+
+/* ------------------------------
+   3. HEADER
+------------------------------ */
+
+.main-header {
+    width: 100%;
+
+    min-height: 88px;
+
+    padding: 18px 5%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    background: rgba(5, 10, 22, 0.82);
+
+    border-bottom: 1px solid var(--border);
+
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+
+    position: relative;
+    z-index: 10;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+}
+
+.brand-logo {
+    width: 48px;
+    height: 48px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 15px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #33baff,
+            #2461ff 55%,
+            #5534d9
+        );
+
+    color: white;
+
+    font-size: 27px;
+    font-weight: 900;
+
+    border: 1px solid rgba(255, 255, 255, 0.25);
+
+    box-shadow:
+        inset 0 2px 4px rgba(255, 255, 255, 0.3),
+        0 7px 22px rgba(37, 137, 255, 0.3);
+
+    transform: perspective(100px) rotateY(-5deg);
+}
+
+.brand-text h1 {
+    font-size: 22px;
+    font-weight: 900;
+
+    letter-spacing: 1.6px;
+
+    line-height: 1.2;
+}
+
+.brand-text h1 span {
+    color: var(--cyan);
+}
+
+.brand-text p {
+    margin-top: 5px;
+
+    color: var(--text-muted);
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: 2px;
+}
+
+.header-status {
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    padding: 9px 14px;
+
+    border-radius: 30px;
+
+    background: rgba(0, 230, 160, 0.06);
+
+    border: 1px solid rgba(0, 230, 160, 0.17);
+
+    color: var(--green);
+
+    font-size: 11px;
+    font-weight: 800;
+
+    letter-spacing: 0.7px;
+}
+
+.status-dot,
+.live-pulse {
+    width: 8px;
+    height: 8px;
+
+    display: inline-block;
+
+    border-radius: 50%;
+
+    background: var(--green);
+
+    box-shadow: 0 0 12px rgba(0, 230, 160, 0.8);
+
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+        box-shadow: 0 0 0 0 rgba(0, 230, 160, 0.45);
+    }
+
+    70% {
+        opacity: 0.8;
+        box-shadow: 0 0 0 7px rgba(0, 230, 160, 0);
+    }
+
+    100% {
+        opacity: 1;
+        box-shadow: 0 0 0 0 rgba(0, 230, 160, 0);
+    }
+}
+
+
+/* ------------------------------
+   4. MAIN LAYOUT
+------------------------------ */
+
+.main-container {
+    width: min(1440px, 100%);
+
+    margin: 0 auto;
+
+    padding: 35px 5% 65px;
+}
+
+.hero-section {
+    position: relative;
+
+    overflow: hidden;
+
+    padding: 42px 35px;
+
+    margin-bottom: 38px;
+
+    border-radius: var(--radius-large);
+
+    border: 1px solid rgba(92, 158, 255, 0.22);
+
+    background:
+        linear-gradient(
+            120deg,
+            rgba(18, 43, 79, 0.95),
+            rgba(10, 23, 44, 0.92) 60%,
+            rgba(25, 21, 61, 0.90)
+        );
+
+    box-shadow:
+        0 20px 50px rgba(0, 0, 0, 0.22),
+        inset 0 1px 0 rgba(255, 255, 255, 0.07);
+
+    transform: perspective(1200px) rotateX(0deg);
+}
+
+.hero-section::before {
+    content: "";
+
+    position: absolute;
+
+    width: 280px;
+    height: 280px;
+
+    right: -65px;
+    top: -100px;
+
+    border-radius: 50%;
+
+    background: rgba(0, 229, 255, 0.12);
+
+    filter: blur(55px);
+
+    pointer-events: none;
+}
+
+.hero-section::after {
+    content: "";
+
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        linear-gradient(
+            115deg,
+            transparent 30%,
+            rgba(255, 255, 255, 0.025) 50%,
+            transparent 70%
+        );
+
+    pointer-events: none;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+}
+
+.hero-badge {
+    display: inline-flex;
+
+    align-items: center;
+
+    padding: 7px 13px;
+
+    margin-bottom: 20px;
+
+    border-radius: 30px;
+
+    background: rgba(0, 229, 255, 0.08);
+
+    border: 1px solid rgba(0, 229, 255, 0.22);
+
+    color: var(--cyan);
+
+    font-size: 10px;
+    font-weight: 900;
+
+    letter-spacing: 1.7px;
+}
+
+.hero-content h2 {
+    max-width: 700px;
+
+    font-size: clamp(30px, 4.5vw, 54px);
+
+    font-weight: 900;
+
+    letter-spacing: -1.6px;
+
+    line-height: 1.17;
+}
+
+.hero-content h2 span {
+    display: block;
+
+    color: var(--cyan);
+
+    text-shadow: 0 0 30px rgba(0, 229, 255, 0.15);
+}
+
+.hero-content p {
+    max-width: 650px;
+
+    margin-top: 20px;
+
+    color: var(--text-secondary);
+
+    font-size: 14px;
+
+    line-height: 1.9;
+}
+
+
+/* ------------------------------
+   5. SECTION HEADINGS
+------------------------------ */
+
+.market-section,
+.chart-section,
+.analysis-section {
+    margin-top: 34px;
+}
+
+.section-heading {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    gap: 18px;
+
+    margin-bottom: 20px;
+}
+
+.section-label {
+    display: block;
+
+    margin-bottom: 6px;
+
+    color: var(--cyan);
+
+    font-size: 10px;
+    font-weight: 900;
+
+    letter-spacing: 2px;
+}
+
+.section-heading h2 {
+    font-size: clamp(20px, 2.5vw, 26px);
+
+    font-weight: 850;
+
+    letter-spacing: -0.5px;
+}
+
+.market-indicator,
+.coming-badge {
+    padding: 8px 12px;
+
+    border-radius: 9px;
+
+    background: rgba(37, 137, 255, 0.08);
+
+    border: 1px solid rgba(37, 137, 255, 0.19);
+
+    color: #77b8ff;
+
+    font-size: 10px;
+    font-weight: 900;
+
+    letter-spacing: 0.8px;
+}
+
+.coming-badge {
+    color: var(--gold);
+
+    background: rgba(255, 200, 87, 0.07);
+
+    border-color: rgba(255, 200, 87, 0.18);
+}
+
+
+/* ------------------------------
+   6. MARKET CARDS
+------------------------------ */
+
+.market-grid {
+    display: grid;
+
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+
+    gap: 17px;
+}
+
+.market-card {
+    position: relative;
+
+    min-width: 0;
+
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 22px 18px;
+
+    text-align: left;
+
+    color: var(--text-primary);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(20, 40, 68, 0.93),
+            rgba(9, 20, 38, 0.95)
+        );
+
+    border: 1px solid var(--border);
+
+    border-radius: var(--radius-medium);
+
+    box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.035);
+
+    cursor: pointer;
+
+    transition:
+        transform 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease;
+
+    transform-style: preserve-3d;
+}
+
+.market-card:hover {
+    transform: translateY(-5px);
+
+    border-color: rgba(0, 229, 255, 0.4);
+
+    box-shadow:
+        0 17px 35px rgba(0, 0, 0, 0.25),
+        0 0 25px rgba(0, 150, 255, 0.08);
+}
+
+.market-card.active {
+    border-color: rgba(0, 229, 255, 0.55);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(15, 64, 94, 0.72),
+            rgba(10, 26, 47, 0.98)
+        );
+
+    box-shadow:
+        0 12px 30px rgba(0, 0, 0, 0.2),
+        inset 0 0 25px rgba(0, 229, 255, 0.035),
+        0 0 18px rgba(0, 229, 255, 0.07);
+}
+
+.market-icon {
+    width: 48px;
+    height: 48px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 14px;
+
+    font-size: 23px;
+    font-weight: 900;
+
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.2),
+        0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.gold-icon {
+    color: #ffe19a;
+
+    background:
+        linear-gradient(145deg, #9b6c15, #49310c);
+}
+
+.bitcoin-icon {
+    color: #ffdf8a;
+
+    background:
+        linear-gradient(145deg, #b9690a, #613205);
+}
+
+.ethereum-icon {
+    color: #c6d5ff;
+
+    background:
+        linear-gradient(145deg, #4d5db2, #222a62);
+}
+
+.market-info {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 4px;
+
+    min-width: 0;
+}
+
+.market-info strong {
+    font-size: 16px;
+
+    font-weight: 900;
+
+    letter-spacing: 0.4px;
+}
+
+.market-info span {
+    color: var(--text-secondary);
+
+    font-size: 11px;
+}
+
+.market-arrow {
+    margin-left: auto;
+
+    color: var(--cyan);
+
+    font-size: 22px;
+
+    opacity: 0.75;
+}
+
+
+/* ------------------------------
+   7. CHART SECTION
+------------------------------ */
+
+.chart-section {
+    overflow: hidden;
+
+    border-radius: var(--radius-large);
+
+    border: 1px solid rgba(101, 153, 219, 0.19);
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(13, 27, 48, 0.96),
+            rgba(7, 15, 29, 0.98)
+        );
+
+    box-shadow:
+        0 22px 50px rgba(0, 0, 0, 0.23),
+        inset 0 1px 0 rgba(255, 255, 255, 0.035);
+}
+
+.chart-header {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding: 22px 24px;
+
+    border-bottom: 1px solid var(--border);
+}
+
+.chart-title {
+    display: flex;
+
+    align-items: center;
+
+    gap: 13px;
+}
+
+.chart-title h2 {
+    font-size: 22px;
+
+    font-weight: 900;
+}
+
+.chart-title p {
+    color: var(--text-secondary);
+
+    font-size: 12px;
+}
+
+.chart-provider {
+    padding: 8px 12px;
+
+    border-radius: 9px;
+
+    background: rgba(37, 137, 255, 0.08);
+
+    border: 1px solid rgba(37, 137, 255, 0.18);
+
+    color: #8ac2ff;
+
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.timeframe-toolbar {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    flex-wrap: wrap;
+
+    gap: 15px;
+
+    padding: 17px 24px;
+
+    border-bottom: 1px solid var(--border);
+}
+
+.timeframe-toolbar > span {
+    color: var(--text-muted);
+
+    font-size: 10px;
+    font-weight: 900;
+
+    letter-spacing: 1.4px;
+}
+
+.timeframe-buttons {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 7px;
+}
+
+.timeframe-buttons button {
+    min-width: 43px;
+
+    padding: 8px 11px;
+
+    border-radius: 8px;
+
+    color: var(--text-secondary);
+
+    background: rgba(255, 255, 255, 0.025);
+
+    border: 1px solid rgba(126, 163, 211, 0.12);
+
+    font-size: 11px;
+    font-weight: 800;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+.timeframe-buttons button:hover {
+    color: white;
+
+    border-color: rgba(0, 229, 255, 0.35);
+}
+
+.timeframe-buttons button.selected {
+    color: #03131c;
+
+    background:
+        linear-gradient(135deg, #70efff, #2589ff);
+
+    border-color: transparent;
+
+    box-shadow: 0 4px 15px rgba(0, 170, 255, 0.2);
+}
+
+.chart-wrapper {
+    position: relative;
+
+    width: 100%;
+
+    min-height: 450px;
+
+    padding: 10px;
+
+    background: #080e19;
+}
+
+#tradingview_chart {
+    width: 100%;
+
+    height: 520px;
+
+    min-height: 450px;
+
+    overflow: hidden;
+
+    border-radius: 10px;
+}
+
+#tradingview_chart iframe {
+    max-width: 100%;
+}
+
+.chart-loading {
+    min-height: 430px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 18px;
+
+    color: var(--text-secondary);
+
+    font-size: 13px;
+}
+
+.loading-spinner {
+    width: 42px;
+    height: 42px;
+
+    border: 3px solid rgba(0, 229, 255, 0.12);
+
+    border-top-color: var(--cyan);
+
+    border-radius: 50%;
+
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.chart-footer {
+    display: flex;
+
+    justify-content: space-between;
+    align-items: center;
+
+    flex-wrap: wrap;
+
+    gap: 12px;
+
+    padding: 14px 23px;
+
+    border-top: 1px solid var(--border);
+
+    color: var(--text-muted);
+
+    font-size: 10px;
+}
+
+
+/* ------------------------------
+   8. ANALYSIS CARD
+------------------------------ */
+
+.analysis-card {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 22px;
+
+    padding: 28px;
+
+    border-radius: var(--radius-large);
+
+    border: 1px solid rgba(128, 93, 255, 0.2);
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(25, 29, 66, 0.68),
+            rgba(11, 21, 42, 0.95)
+        );
+
+    box-shadow:
+        0 18px 35px rgba(0, 0, 0, 0.17),
+        inset 0 1px 0 rgba(255, 255, 255, 0.035);
+}
+
+.analysis-icon {
+    width: 58px;
+    height: 58px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 17px;
+
+    background:
+        linear-gradient(145deg, #8b6aff, #4130b7);
+
+    color: white;
+
+    font-size: 32px;
+
+    box-shadow:
+        0 10px 25px rgba(103, 70, 255, 0.24),
+        inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.analysis-content {
+    flex: 1;
+
+    min-width: 0;
+}
+
+.analysis-content h3 {
+    margin-bottom: 10px;
+
+    font-size: 20px;
+
+    font-weight: 850;
+}
+
+.analysis-content > p {
+    max-width: 800px;
+
+    color: var(--text-secondary);
+
+    font-size: 13px;
+
+    line-height: 1.9;
+}
+
+.analysis-features {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    gap: 10px;
+
+    margin-top: 20px;
+}
+
+.analysis-features span {
+    padding: 8px 11px;
+
+    border-radius: 8px;
+
+    background: rgba(0, 229, 255, 0.055);
+
+    border: 1px solid rgba(0, 229, 255, 0.13);
+
+    color: #a2eaff;
+
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.analysis-content .module-note {
+    margin-top: 17px;
+
+    color: var(--gold);
+
+    font-size: 11px;
+}
+
+
+/* ------------------------------
+   9. RISK NOTICE
+------------------------------ */
+
+.risk-notice {
+    display: flex;
+
+    align-items: flex-start;
+
+    gap: 15px;
+
+    margin-top: 30px;
+
+    padding: 22px;
+
+    border-radius: var(--radius-medium);
+
+    background: rgba(255, 200, 87, 0.035);
+
+    border: 1px solid rgba(255, 200, 87, 0.13);
+}
+
+.risk-symbol {
+    width: 33px;
+    height: 33px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    background: rgba(255, 200, 87, 0.12);
+
+    color: var(--gold);
+
+    font-size: 18px;
+    font-weight: 900;
+}
+
+.risk-notice h3 {
+    margin-bottom: 6px;
+
+    color: var(--gold);
+
+    font-size: 13px;
+
+    font-weight: 850;
+}
+
+.risk-notice p {
+    color: var(--text-secondary);
+
+    font-size: 11px;
+
+    line-height: 1.9;
+}
+
+
+/* ------------------------------
+   10. FOOTER
+------------------------------ */
+
+.main-footer {
+    padding: 28px 20px;
+
+    text-align: center;
+
+    border-top: 1px solid var(--border);
+
+    background: rgba(3, 8, 17, 0.65);
+}
+
+.footer-brand {
+    color: white;
+
+    font-size: 14px;
+    font-weight: 900;
+
+    letter-spacing: 1.5px;
+}
+
+.footer-brand span {
+    color: var(--cyan);
+}
+
+.main-footer > p {
+    margin-top: 7px;
+
+    color: var(--text-secondary);
+
+    font-size: 11px;
+}
+
+.main-footer .copyright {
+    margin-top: 14px;
+
+    color: var(--text-muted);
+
+    font-size: 10px;
+}
+
+
+/* ------------------------------
+   11. SCROLLBAR
+------------------------------ */
+
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background: #050914;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #203e66;
+
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #3274bb;
+}
+
+
+/* ------------------------------
+   12. TABLET RESPONSIVE
+------------------------------ */
+
+@media (max-width: 900px) {
+
+    .main-container {
+        padding-right: 4%;
+        padding-left: 4%;
+    }
+
+    .market-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .market-card {
+        padding: 17px;
+    }
+
+    .hero-section {
+        padding: 34px 26px;
+    }
+
+    .chart-wrapper {
+        padding: 6px;
+    }
+
+    #tradingview_chart {
+        height: 480px;
+    }
+
+}
+
+
+/* ------------------------------
+   13. MOBILE RESPONSIVE
+------------------------------ */
+
+@media (max-width: 600px) {
+
+    .main-header {
+        min-height: 76px;
+
+        padding: 14px 4%;
+
+        gap: 10px;
+    }
+
+    .brand {
+        gap: 10px;
+    }
+
+    .brand-logo {
+        width: 41px;
+        height: 41px;
+
+        border-radius: 12px;
+
+        font-size: 23px;
+    }
+
+    .brand-text h1 {
+        font-size: 17px;
+
+        letter-spacing: 1px;
+    }
+
+    .brand-text p {
+        font-size: 8px;
+
+        letter-spacing: 1.1px;
+    }
+
+    .header-status {
+        padding: 7px 9px;
+
+        gap: 6px;
+
+        font-size: 9px;
+
+        letter-spacing: 0;
+    }
+
+    .status-dot {
+        width: 6px;
+        height: 6px;
+    }
+
+    .main-container {
+        padding: 22px 4% 40px;
+    }
+
+    .hero-section {
+        padding: 29px 21px;
+
+        margin-bottom: 28px;
+
+        border-radius: 18px;
+    }
+
+    .hero-badge {
+        font-size: 9px;
+
+        letter-spacing: 1px;
+    }
+
+    .hero-content h2 {
+        font-size: 34px;
+
+        letter-spacing: -1px;
+    }
+
+    .hero-content p {
+        font-size: 12px;
+
+        line-height: 1.8;
+    }
+
+    .section-heading {
+        align-items: flex-start;
+    }
+
+    .section-heading h2 {
+        font-size: 21px;
+    }
+
+    .market-indicator,
+    .coming-badge {
+        padding: 7px 8px;
+
+        font-size: 8px;
+    }
+
+    .market-card {
+        gap: 12px;
+
+        padding: 16px;
+
+        border-radius: 13px;
+    }
+
+    .market-icon {
+        width: 43px;
+        height: 43px;
+
+        border-radius: 12px;
+    }
+
+    .market-info strong {
+        font-size: 14px;
+    }
+
+    .market-info span {
+        font-size: 10px;
+    }
+
+    .chart-header {
+        padding: 18px 15px;
+    }
+
+    .chart-title h2 {
+        font-size: 19px;
+    }
+
+    .chart-title p {
+        font-size: 10px;
+    }
+
+    .chart-provider {
+        padding: 7px 8px;
+
+        font-size: 8px;
+    }
+
+    .timeframe-toolbar {
+        align-items: flex-start;
+
+        padding: 15px;
+
+        gap: 12px;
+    }
+
+    .timeframe-toolbar > span {
+        width: 100%;
+    }
+
+    .timeframe-buttons {
+        width: 100%;
+
+        gap: 6px;
+    }
+
+    .timeframe-buttons button {
+        flex: 1;
+
+        min-width: 0;
+
+        padding: 9px 5px;
+
+        font-size: 10px;
+    }
+
+    .chart-wrapper {
+        min-height: 420px;
+
+        padding: 4px;
+    }
+
+    #tradingview_chart {
+        height: 440px;
+
+        min-height: 400px;
+    }
+
+    .chart-footer {
+        padding: 13px;
+
+        font-size: 9px;
+    }
+
+    .analysis-card {
+        flex-direction: column;
+
+        padding: 21px;
+
+        gap: 16px;
+    }
+
+    .analysis-content h3 {
+        font-size: 18px;
+    }
+
+    .analysis-content > p {
+        font-size: 12px;
+    }
+
+    .analysis-features {
+        gap: 7px;
+    }
+
+    .analysis-features span {
+        font-size: 9px;
+
+        padding: 7px 9px;
+    }
+
+    .risk-notice {
+        padding: 17px;
+
+        gap: 12px;
+    }
+
+    .risk-notice p {
+        font-size: 10px;
+    }
+
+    .background-glow {
+        width: 200px;
+        height: 200px;
+
+        filter: blur(80px);
+    }
+
+}
+
+
+/* ------------------------------
+   14. REDUCED MOTION ACCESSIBILITY
+------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+
+        animation-duration: 0.01ms !important;
+
+        animation-iteration-count: 1 !important;
+
+        transition-duration: 0.01ms !important;
+    }
+
+}
